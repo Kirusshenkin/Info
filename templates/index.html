@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Crypto Prices</title>
-    <script src="https://unpkg.com/htmx.org"></script>
 </head>
 <body>
     <h1>Crypto Prices</h1>
-    <div hx-get="/prices" hx-trigger="load, every 10s">
-        Loading prices...
+    <div id="price-container">
+        {{.Price}} <!-- Данные о цене будут вставляться здесь -->
     </div>
 </body>
 </html>
