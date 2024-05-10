@@ -13,9 +13,6 @@ RUN go mod download
 # Скопируйте исходный код проекта в рабочий каталог
 COPY . .
 
-# Dockerfile
-COPY templates templates
-
 # Соберите приложение, указывая путь к main.go относительно WORKDIR
 RUN CGO_ENABLED=0 GOOS=linux go build -o cryptoApi cmd/main.go
 
@@ -25,6 +22,9 @@ WORKDIR /root/
 
 # Скопируйте собранный бинарник в финальный образ
 COPY --from=builder /app/cryptoApi .
+
+# Скопируйте шаблоны из среды сборки в финальный образ
+COPY --from=builder /app/templates /root/templates
 
 # Откройте порт, на котором работает приложение
 EXPOSE 8080

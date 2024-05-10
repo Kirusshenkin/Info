@@ -17,7 +17,7 @@ func Connect() {
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
-    Client, err = mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+    Client, err = mongo.Connect(ctx, options.Client().ApplyURI("mongodb://mongo:27017"))
     if err != nil {
         log.Fatal(err)
     }
