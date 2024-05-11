@@ -5,7 +5,7 @@ services:
     build:
       context: ../  # Указывает на корень проекта
       dockerfile: _docker-infrastructureV2/Dockerfile
-    container_name: cryptoApi
+    container_name: ${COMPOSE_PROJECT_NAME}.cryptoApi
     depends_on:
       - mongo
     volumes:
@@ -18,13 +18,17 @@ services:
       - app-network
 
   nginx:
-    image: nginx:latest
-    container_name: nginx_static
-    ports:
-      - "8080:8080"
+    build:
+      context: docker/nginx
+    container_name: ${COMPOSE_PROJECT_NAME}.nginx
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/usr/share/nginx/html/static
+      - ../:/app/
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available/
+    env_file:
+      - application.env
+    ports:
+      - "80:80"
     depends_on:
       - app
     networks:
@@ -39,6 +43,15 @@ services:
       - mongo-data:/data/db
     networks:
       - app-network
+  
+  golang:
+    build:
+      context: ../  # Указывает на корень проекта
+      dockerfile: _docker-infrastructureV2/docker/golang/Dockerfile
+    restart: always
+    container_name: ${COMPOSE_PROJECT_NAME}.golang
+    volumes:
+      - ../:/app/
 
 volumes:
   mongo-data:
