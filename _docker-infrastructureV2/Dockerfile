@@ -1,5 +1,5 @@
 # Используйте официальный образ Golang
-FROM golang:1.19-alpine as builder
+FROM golang:1.21-alpine as builder
 
 # Установите рабочий каталог
 WORKDIR /app
@@ -22,9 +22,6 @@ WORKDIR /root/
 
 # Скопируйте собранный бинарник в финальный образ
 COPY --from=builder /app/cryptoApi .
-
-# Скопируйте шаблоны из среды сборки в финальный образ
-COPY --from=builder /app/templates /root/templates
 
 # Откройте порт, на котором работает приложение
 EXPOSE 8080

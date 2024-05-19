@@ -26,3 +26,5 @@ go.work
 .env
 
 .DS_Store
+
+.idea

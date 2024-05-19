@@ -2,24 +2,21 @@ package main
 
 import (
 	"cryptoApi/internal/database"
-	"cryptoApi/internal/handler"
-	"io/ioutil"
+	"cryptoApi/pkg"
 	"log"
-	"net/http"
-	"os"
 )
 
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
+
 func main() {
-    database.Connect()
+	// connecting monoDB it is database.go
+	database.Connect()
 
-    http.HandleFunc("/", handler.HomeHandler)
-    http.HandleFunc("/prices", handler.PricesHandler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	// starting bot it is bot.go
+	bot.Start()
 
-		cwd, _ := os.Getwd()
-		files, _ := ioutil.ReadDir("./")
-		log.Printf("Current working directory: %s", cwd)
-		for _, f := range files {
-				log.Println(f.Name())
-		}
+	// logger info and error it is server.go
+	log.Println("Server started")
 }
