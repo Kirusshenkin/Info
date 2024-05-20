@@ -2,7 +2,8 @@ package bot
 
 import (
 	"cryptoApi/pkg/auth"
-	"cryptoApi/pkg/ethereum"
+	"cryptoApi/pkg/bybit"
+	"fmt"
 	"log"
 	"os"
 
@@ -52,11 +53,21 @@ func Start() {
 
 		switch update.Message.Command() {
 		case "start":
-			msg.Text = "Привет! Я бот, который поможет тебе узнать цену Ethereum."
+			msg.Text = "Привет! Я бот, который поможет тебе узнать цену криптовалют."
 		case "help":
-			msg.Text = "Команды:\n/start - начать общение с ботом\n/eth - узнать цену Ethereum"
-		case "eth":
-			ethereum.GetPrice()
+			msg.Text = "Команды:\n/start - начать общение с ботом\n/crypto - узнать цены 5 криптовалют"
+		case "crypto":
+			symbols := []string{"BTCUSDT", "ETHUSDT", "SOLUSDT", "DOTUSDT", "ADAUSDT"}
+			prices, err := bybit.GetCryptoPrices(symbols)
+			if err != nil {
+				msg.Text = fmt.Sprintf("Ошибка получения цен криптовалют: %v", err)
+			} else {
+				var response string
+				for symbol, price := range prices {
+					response += fmt.Sprintf("%s: %s$\n", symbol, price)
+				}
+				msg.Text = response
+			}
 		default:
 			msg.Text = "Я не знаю эту команду :("
 		}

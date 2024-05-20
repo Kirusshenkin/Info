@@ -6,23 +6,10 @@ services:
       context: ../  # Указывает на корень проекта
       dockerfile: _docker-infrastructureV2/Dockerfile
     container_name: ${COMPOSE_PROJECT_NAME}.cryptoApi
-    depends_on:
-      - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017
-      - BYBIT_API_TOKEN=${BYBIT_API_TOKEN}
-      - BYBIT_API_SECRET=${BYBIT_API_SECRET}
-      - TELEGRAM_BOT_API_KEY=${TELEGRAM_BOT_API_KEY}
-    networks:
-      - app-network
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    container_name: mongo_db
-    volumes:
-      - mongo-data:/data/db
+      - MONGO_URI=mongodb+srv://kirillmitin34:HogEWwq7qFOr5eh8@crypto.idpoyke.mongodb.net/
+    env_file:
+      - .env
     networks:
       - app-network
 
