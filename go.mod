@@ -6,7 +6,10 @@ toolchain go1.22.3
 
 require go.mongodb.org/mongo-driver v1.15.0
 
-require github.com/technoweenie/multipartstreamer v1.0.1 // indirect
+require (
+	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
+)
 
 require (
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
